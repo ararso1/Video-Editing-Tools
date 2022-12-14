@@ -42,25 +42,30 @@
     .video video{
        margin-left: 25%;
     }
+
 </style>
     <section>
         <h3>Welcome to Video mergin Tools</h3>
         
         <div class="video">
-            <div class="original" id="">
-                <label for="">Choose Original Video:</label>
-                <input type="file" name="original" id="original">
-                <video width="320" height="240" style="display:none" controls autoplay>
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="merged" id="">
-                <label for="">Choose merged Video:</label>
-                <input type="file" name="merged" id="merged">
-                <video width="320" height="240" style="display:none" controls autoplay>
-                    Your browser does not support the video tag.
-                </video>
-            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="original" id="">
+                    <label for="">Choose Original Video:</label>
+                    <input type="file" name="original_video" id="original">
+                    <video width="320" height="240" style="display:none" controls autoplay>
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="merged" id="">
+                    <label for="">Choose merged Video:</label>
+                    <input type="file" name="merged_video" id="merged">
+                    <video width="320" height="240" style="display:none" controls autoplay>
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <button type="submit" class="btn btn-success">Success</button>
+            </form>
         </div>
 
     </section>
