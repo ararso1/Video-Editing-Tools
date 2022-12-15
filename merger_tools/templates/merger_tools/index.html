@@ -52,14 +52,14 @@
                 {% csrf_token %}
                 <div class="original" id="">
                     <label for="">Choose Original Video:</label>
-                    <input type="file" name="original_video" id="original">
+                    <input required type="file" multiple name="original_video" id="original">
                     <video width="320" height="240" style="display:none" controls autoplay>
                         Your browser does not support the video tag.
                     </video>
                 </div>
                 <div class="merged" id="">
                     <label for="">Choose merged Video:</label>
-                    <input type="file" name="merged_video" id="merged">
+                    <input type="file" required multiple name="merged_video" id="merged">
                     <video width="320" height="240" style="display:none" controls autoplay>
                         Your browser does not support the video tag.
                     </video>
@@ -72,12 +72,12 @@
  
     
 <script>
-    document.getElementById("original").onchange = function(event) {
+/*     document.getElementById("original").onchange = function(event) {
     let file = event.target.files[0];
     let blobURL = URL.createObjectURL(file);
     document.querySelector("video").style.display = 'block';
     document.querySelector("video").src = blobURL;    
-}
+} */
 </script>
 
     

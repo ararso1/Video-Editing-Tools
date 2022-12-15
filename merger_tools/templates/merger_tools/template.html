@@ -62,34 +62,40 @@
 <section>
   <h4>Templates 9:16</h4>
   <div class="both-card">
+    <form action="" method="post">
+      {% csrf_token %}
     <div class="card1">
       <div class="card original" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title" name="original">Original Video</h5>
+          <input class="card-title" name="original" value="Original Video">
         </div>
       </div>
       <div class="card merged" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">Merged Video</h5>
+          <input class="card-title" name="merged" value="Merged Video">
         </div>
       </div>
       <button type="submit" class="btn btn-success">Select</button>
     </div>
+    </form>
   </div>
   <div class="both-card">
+    <form action="" method="post">
+      {% csrf_token %}
     <div class="card2">
       <div class="card merged" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">Merged Video</h5>
+          <input class="card-title" name="merged" value="Merged Video">
         </div>
       </div>
       <div class="card original" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">Original Video</h5>
+          <input class="card-title" name="original" value="Original Video">
         </div>
       </div>
     </div>
     <button type="submit" class="btn btn-success">Select</button>
+    </form>
   </div>
   <div class="both-card">
     <div class="card3">

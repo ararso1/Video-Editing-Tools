@@ -3,7 +3,8 @@ from django import forms
 
 from .models import *
 
-class VideoForm(ModelForm):
+""" class VideoForm(ModelForm):
 	class Meta:
 		model = Video
 		fields = '__all__'
+ """
