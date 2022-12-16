@@ -2,4 +2,8 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-admin.site.register(Video)
+admin.site.register(O_Video)
+admin.site.register(M_Video)
+admin.site.register(Scale)
+admin.site.register(Cut_Original)
+admin.site.register(Cut_Merged)

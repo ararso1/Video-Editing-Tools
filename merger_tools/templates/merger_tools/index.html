@@ -63,6 +63,10 @@
                     <video width="320" height="240" style="display:none" controls autoplay>
                         Your browser does not support the video tag.
                     </video>
+                    <select name="scale" id="">
+                        <option value="one_with_one">One with one</option>
+                        <option value="one_with_many">One wiht money</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-success">Select Template</button>
             </form>
@@ -72,12 +76,12 @@
  
     
 <script>
-/*     document.getElementById("original").onchange = function(event) {
+    document.getElementById("original").onchange = function(event) {
     let file = event.target.files[0];
     let blobURL = URL.createObjectURL(file);
     document.querySelector("video").style.display = 'block';
     document.querySelector("video").src = blobURL;    
-} */
+}
 </script>
 
     
