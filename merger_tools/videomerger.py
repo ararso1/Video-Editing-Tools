@@ -18,9 +18,9 @@ def trim():
     clip_trim=clip1.cutout(starting,ending)
 
 #for duration adjustment
-if durationc1 <=durationc2:
+if durationc2 > durationc1:
     clip2 = VideoFileClip("t2.mp4").subclip(0, durationc1)
-elif durationc1 >= durationc2:
+elif durationc2 < durationc1:
     d=durationc1/durationc2
     d=int(d)
     print(d)
@@ -28,6 +28,7 @@ elif durationc1 >= durationc2:
     for i in range(d):
         l.append(clip2)
     clip2 =concatenate_videoclips(l).subclip(0, durationc1)
+
 def temp1():
     clips = [[clip1],[clip2]]
 def temp2():
