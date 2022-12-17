@@ -26,3 +26,6 @@ class Cut_Original(models.Model):
 
 class Cut_Merged(models.Model):
     cut_merged = models.FileField(upload_to='cut_merged',null=True)
+
+class Output_Video(models.Model):
+    output = models.FileField(upload_to='output_video', null=True)
