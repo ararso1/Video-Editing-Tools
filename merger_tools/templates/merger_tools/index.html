@@ -25,10 +25,10 @@ function start(al) {
     status.innerHTML = al + "%";
     bar.value = al;
     al++;
-    var sim = setTimeout("start(" + al + ")", 200);
-    if (al == 100) {
-        status.innerHTML = "100%";
-        bar.value = 100;
+    var sim = setTimeout("start(" + al + ")", 300);
+    if (al == 98) {
+        status.innerHTML = "98%";
+        bar.value = 98;
         clearTimeout(sim);
         var finalMessage = document.getElementById('finalMessage');
         finalMessage.innerHTML = "Process is complete";

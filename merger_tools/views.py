@@ -608,8 +608,7 @@ def templates(request):
             create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size)
         elif temp_name1:
             temp_size = '9:16'
-            print(sound,formats,crop_o,crop_m,resize,temp_size)
-            #temp1(sound,formats,crop_o,crop_m,resize,temp_size)
+            temp1(sound,formats,crop_o,crop_m,resize,temp_size)
         elif temp_name2: 
             temp_size = '9:16'
             temp2(sound,formats,crop_o,crop_m,resize,temp_size)
