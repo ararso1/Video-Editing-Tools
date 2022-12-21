@@ -2,7 +2,50 @@
 {% load static %}
   
 
+
+<style>
+    .progress12{
+        margin-bottom: 0%;
+        margin-top: 0%;
+    }
+    #progressBar{
+        padding: 20px;
+        width: 70%;
+    }
+</style>
+
+<script>
+function start(al) {
+  var bar = document.getElementById('progressBar');
+  var status = document.getElementById('status');
+  var x = document.getElementById('progress12')
+  if (x.style.display === 'none'){
+    x.style.display = 'block'
+  }
+    status.innerHTML = al + "%";
+    bar.value = al;
+    al++;
+    var sim = setTimeout("start(" + al + ")", 200);
+    if (al == 100) {
+        status.innerHTML = "100%";
+        bar.value = 100;
+        clearTimeout(sim);
+        var finalMessage = document.getElementById('finalMessage');
+        finalMessage.innerHTML = "Process is complete";
+    }
+  
+    
+}
+var amountLoaded = 0;
+//start(amountLoaded);
+
+</script>
     <section>
+        <section class="progress12" id="progress12" style="display: none;">
+            <progress id="progressBar" value="0" max="100"></progress>
+            <span id="status"></span>
+            <h4 id="finalMessage"></h4>
+        </section>
         <h3>Welcome to Video mergin Tools</h3>
         
         <div class="video">
@@ -19,7 +62,7 @@
 
                 </div>
                 <br>
-                <button type="submit" id="step" class="btn btn-success">Upload</button>
+                <button type="submit" onclick="start(0)" id="step" class="btn btn-success">Upload</button>
             </form>
         </div>
 

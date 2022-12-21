@@ -4,6 +4,4 @@ from .models import *
 
 admin.site.register(O_Video)
 admin.site.register(M_Video)
-admin.site.register(Cut_Original)
-admin.site.register(Cut_Merged)
 admin.site.register(Output_Video)
