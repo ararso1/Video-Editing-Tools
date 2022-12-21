@@ -10,9 +10,9 @@
             {% for out in outputs %}
           <div class="col-4">
             <div class="card" style="max-width: 18rem;">
-              <video src="{{out.output.url}}" style="display: block; width: 100%;"  class="card-img-top" autoplay controls></video>
+              <video src="{{v.output.url}}" style="display: block;" class="card-img-top" autoplay controls></video>
               <div class="card-body">
-                <h5 class="card-title">Your Output Video</h5>
+                <h6 class="card-title">Your Output Video</h6>
                 <a href="{{out.output.url}}" download class="btn btn-primary" >Downlaod</a>
               </div>
             </div>
