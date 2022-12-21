@@ -471,20 +471,8 @@ def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size
             tobecut1 = h1-w1
             tobecut2 = h2-w2
 
-            if crop_o == 'bottom' and crop_m == 'bottom':
-                clip1 = vfx.crop(clip1, x1=0, y1=0, x2=w1, y2=w1)
-                clip2 = vfx.crop(clip2, x1=0, y1=0, x2=w2, y2=w1)
-            elif crop_o == 'top' and crop_m == 'bottom':
-                clip1 = vfx.crop(clip1, x1=0, y1=tobecut1, x2=w1, y2=0)
-                clip2 = vfx.crop(clip2, x1=0, y1=0, x2=w2, y2=w2)
-                
-            elif crop_o == 'bottom' and crop_m == 'top':
-                clip1 = vfx.crop(clip1, x1=0, y1=0, x2=w1, y2=w1)
-                clip2 = vfx.crop(clip2, x1=0, y1=tobecut2, x2=w2, y2=0)
-
-            else:
-                clip1 = vfx.crop(clip1, x1=0, y1=tobecut1, x2=w1, y2=0)
-                clip2 = vfx.crop(clip2, x1=0, y1=tobecut2, x2=w2, y2=0)
+            clip1=cropp(clip1,crop_o)
+            clip2=cropp(clip2,crop_m)
 
 
             if o_place=='top' and m_place=='bottom':
