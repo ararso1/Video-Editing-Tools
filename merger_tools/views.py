@@ -4,6 +4,7 @@ from moviepy.editor import *
 from moviepy.video.fx.all import *
 import os
 import random
+from zipfile import ZipFile
 #from .videomerger import *
 # Create your views here.
 
@@ -627,6 +628,18 @@ def templates(request):
 
 def output(request):
     outputs = Output_Video.objects.all()
-    context = {'outputs':outputs}
+    out = Output_Video.objects.all()
+    Zip_file.objects.all().delete()
+    from os.path import basename
+    zip_name = 'allvideo.zip'
+    with ZipFile(os.path.abspath('static/assets/download_zip/'+zip_name), 'w') as zipObj:
+        for file in out:
+                    filename=file.output.path
+                    zipObj.write(filename, basename(filename))
+    
+    zipObj.close()        
+    if zip_name in os.path.abspath('static/assets/download_zip/'+zip_name):
+        Zip_file.objects.create(file=zipObj.filename)
+    zipf = Zip_file.objects.get()
+    context = {'outputs':outputs,'zipf':zipf}
     return render(request, 'merger_tools/output.html', context)
-

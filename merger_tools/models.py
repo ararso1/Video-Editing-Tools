@@ -22,10 +22,10 @@ class M_Video(models.Model):
 
 class Cut_Original(models.Model):
     cut_original = models.FileField(upload_to='cut_original',null=True)
-    #v = models.CharField(max_length=10000, null=True)
+    #v = models.CharField(max_length=10000, null=True)"""
 
-class Cut_Merged(models.Model):
-    cut_merged = models.FileField(upload_to='cut_merged',null=True)"""
+class Zip_file(models.Model):
+    file = models.FileField(upload_to='download_zip',null=True)
 
 class Output_Video(models.Model):
     output = models.FileField(upload_to='output_video', null=True)      

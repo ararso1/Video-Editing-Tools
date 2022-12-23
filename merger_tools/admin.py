@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(O_Video)
 admin.site.register(M_Video)
 admin.site.register(Output_Video)
+admin.site.register(Zip_file)

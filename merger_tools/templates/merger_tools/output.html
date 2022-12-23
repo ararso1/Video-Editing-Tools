@@ -1,16 +1,16 @@
 {% include 'merger_tools/bar.html' %}
 {% load static %}
-    
 
 
 <div class="output">
     <div class="container ">
         <h4>Here is your output. please downlaod your video. it will get deleted after some times.</h4>
+        <a href="{{zipf.file.url}}" download class="btn btn-primary" >Downlaod All Video</a>
         <div class="row align-items-center">
             {% for out in outputs %}
           <div class="col-4">
             <div class="card" style="max-width: 18rem;">
-              <video src="{{v.output.url}}" style="display: block;" class="card-img-top" autoplay controls></video>
+              <video src="{{out.output.url}}" style="display: block;" class="card-img-top" autoplay controls></video>
               <div class="card-body">
                 <h6 class="card-title">Your Output Video</h6>
                 <a href="{{out.output.url}}" download class="btn btn-primary" >Downlaod</a>
