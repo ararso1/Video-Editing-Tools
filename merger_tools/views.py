@@ -5,6 +5,7 @@ from moviepy.video.fx.all import *
 import os
 import random
 from zipfile import ZipFile
+from os.path import basename
 #from .videomerger import *
 # Create your views here.
 
@@ -391,7 +392,7 @@ def temp8(sound,formats,crop_o,crop_m,resize,temp_size):
             n+=1
 
 
-def select_sound(sound,o,m,n,clips,formats,temp_size,resize):
+def select_sound(sound,o,m,n,clips,formats,resize,temp_size):
     if sound == 'no_sound':
         final1 = clips.without_audio()
     elif sound == "s_from_original": 
@@ -425,31 +426,10 @@ def select_sound(sound,o,m,n,clips,formats,temp_size,resize):
                 final1=final1.fx(vfx.resize,(2160,2160))
             except:
                 pass
-    
     final1.write_videofile(os.path.abspath("static/assets/output_video/output"+str(n)+"."+formats), fps = 24, codec = 'mpeg4')
     oo=Output_Video.objects.create(output=os.path.abspath("static/assets/output_video/output"+str(n)+".mp4"))
     oo.save()
 
-
-""" def trim_original(start, end,video):   
-    num = random.randint(0,1000)
-    clip1=VideoFileClip(video)
-    clip1=clip1.cutout(start,end)
-    
-    clip1.write_videofile(os.path.abspath("static/assets/cut_original/original"+str(num)+".mp4"), fps = 24, codec = 'mpeg4')
-    oo=Cut_Original.objects.create(cut_original=os.path.abspath("static/assets/cut_original/original"+str(num)+".mp4"))
-    oo.save() 
-
-    
-def trim_merged(start, end,video):
-    num = random.randint(0,1000)
-    clip1=VideoFileClip(video)
-    clip1=clip1.cutout(start,end)
-    print(clip1.duration)
-    
-    o = clip1.write_videofile(os.path.abspath("static/assets/cut_merged/merged"+str(num)+".mp4"), fps = 24, codec = 'mpeg4')
-    oo=Cut_Merged.objects.create(cut_merged=os.path.abspath("static/assets/cut_merged/merged"+str(num)+".mp4"))
-    oo.save()"""
 
 
 def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size):
@@ -573,6 +553,7 @@ def templates(request):
     #video = O_Video.objects.all()
     error = ''
     if request.method == 'POST':
+        Output_Video.objects.all().delete()
         temp_name1 = request.POST.get('temp1')
         temp_name2 = request.POST.get('temp2')
         temp_name3 = request.POST.get('temp3')
@@ -628,16 +609,15 @@ def templates(request):
 
 def output(request):
     outputs = Output_Video.objects.all()
-    out = Output_Video.objects.all()
     Zip_file.objects.all().delete()
-    from os.path import basename
     zip_name = 'allvideo.zip'
     with ZipFile(os.path.abspath('static/assets/download_zip/'+zip_name), 'w') as zipObj:
-        for file in out:
+        for file in outputs:
                     filename=file.output.path
                     zipObj.write(filename, basename(filename))
     
-    zipObj.close()        
+    zipObj.close()
+
     if zip_name in os.path.abspath('static/assets/download_zip/'+zip_name):
         Zip_file.objects.create(file=zipObj.filename)
     zipf = Zip_file.objects.get()
