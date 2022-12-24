@@ -44,7 +44,7 @@ def index(request):
 
     context = {}
     return render(request, 'merger_tools/index.html', context)
-def cropp(clip,n):
+def cropp9_16(clip,n):
     (w, h) = clip.size
     try:
         if w>h:
@@ -62,6 +62,33 @@ def cropp(clip,n):
         elif n=="top":
             left = 0
             top = h-w
+            right = w
+            bottom = h
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+    except:
+        pass
+    return clip
+
+
+
+def cropp1_1(clip,n):
+    (w, h) = clip.size
+    try:
+        if w>h:
+            clip=clip.fx(vfx.resize,(h,h))
+        if n=="top":
+            left = 0
+            top = 0
+            right = w
+            bottom = w/2
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+
+        elif n=="middle":
+            clip = vfx.crop(clip, width=w, height=w/2, x_center=w/2, y_center=h/2)
+            z=0
+        elif n=="bottom":
+            left = 0
+            top = h-w/2
             right = w
             bottom = h
             clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
@@ -90,8 +117,8 @@ def temp1(sound,formats,crop_o,crop_m,resize,temp_size):
             tobecut1 = h1-w1
             tobecut2 = h2-w2
 
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp9_16(clip1,crop_o)
+            clip2=cropp9_16(clip2,crop_m)
                 
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -133,8 +160,8 @@ def temp2(sound,formats,crop_o,crop_m,resize,temp_size):
             tobecut1 = h1-w1
             tobecut2 = h2-w2
             
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp9_16(clip1,crop_o)
+            clip2=cropp9_16(clip2,crop_m)
             
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -174,8 +201,8 @@ def temp3(sound,formats,crop_o,crop_m,resize,temp_size):
             d1=clip1.duration
             d2=clip2.duration
             
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp9_16(clip1,crop_o)
+            clip2=cropp9_16(clip2,crop_m)
 
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -214,8 +241,8 @@ def temp4(sound,formats,crop_o,crop_m,resize,temp_size):
             d1=clip1.duration
             d2=clip2.duration
 
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp9_16(clip1,crop_o)
+            clip2=cropp9_16(clip2,crop_m)
 
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -252,8 +279,8 @@ def temp5(sound,formats,crop_o,crop_m,resize,temp_size):
 
             d1=clip1.duration
             d2=clip2.duration
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp1_1(clip1,crop_o)
+            clip2=cropp1_1(clip2,crop_m)
 
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -273,6 +300,7 @@ def temp5(sound,formats,crop_o,crop_m,resize,temp_size):
                 clips = [[clip1],[clip2]]
                 clips=clips_array(clips)
                 select_sound(sound,o,m,n,clips,formats,resize,temp_size)
+
             n+=1
 
 
@@ -291,8 +319,8 @@ def temp6(sound,formats,crop_o,crop_m,resize,temp_size):
             
             d1=clip1.duration
             d2=clip2.duration
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp1_1(clip1,crop_o)
+            clip2=cropp1_1(clip2,crop_m)
 
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -330,8 +358,8 @@ def temp7(sound,formats,crop_o,crop_m,resize,temp_size):
             
             d1=clip1.duration
             d2=clip2.duration
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp1_1(clip1,crop_o)
+            clip2=cropp1_1(clip2,crop_m)
             
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -368,8 +396,8 @@ def temp8(sound,formats,crop_o,crop_m,resize,temp_size):
             
             d1=clip1.duration
             d2=clip2.duration
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            clip1=cropp1_1(clip1,crop_o)
+            clip2=cropp1_1(clip2,crop_m)
 
             if d2 > d1:
                 clip2 = clip2.subclip(0, d1)
@@ -432,7 +460,7 @@ def select_sound(sound,o,m,n,clips,formats,resize,temp_size):
 
 
 
-def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size):
+def create_template(o_place,m_place,sound,formats,crop_o,crop_m,resize,temp_size):
     cutted_o = O_Video.objects.all()
     cutted_m = M_Video.objects.all()
     n=0
@@ -452,8 +480,12 @@ def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size
             tobecut1 = h1-w1
             tobecut2 = h2-w2
 
-            clip1=cropp(clip1,crop_o)
-            clip2=cropp(clip2,crop_m)
+            if temp_size == '9:16':
+                clip1=cropp9_16(clip1,crop_o)
+                clip2=cropp9_16(clip2,crop_m)
+            elif temp_size == '1:1':
+                clip1=cropp1_1(clip1,crop_o)
+                clip2=cropp1_1(clip2,crop_m)
 
 
             if o_place=='top' and m_place=='bottom':
@@ -461,7 +493,7 @@ def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size
                     clip2 = clip2.subclip(0, d1)
                     clips = [[clip1],[clip2]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 elif d2 < d1:
                     loop=d1/d2
                     l=[clip2]
@@ -470,18 +502,18 @@ def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size
                     clip2 =concatenate_videoclips(l).subclip(0, clip1.duration)
                     clips = [[clip1],[clip2]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 else:
                     clips = [[clip1],[clip2]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
 
             elif o_place=='bottom' and m_place=='top':
                 if d2 > d1:
                     clip2 = clip2.subclip(0, d1)
                     clips = [[clip2],[clip1]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 elif d2 < d1:
                     loop=d1/d2
                     l=[clip2]
@@ -490,18 +522,18 @@ def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size
                     clip2 =concatenate_videoclips(l).subclip(0, clip1.duration)
                     clips = [[clip2],[clip1]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 else:
                     clips = [[clip2],[clip1]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
 
             elif o_place=='left' and m_place=='right':
                 if d2 > d1:
                     clip2 = clip2.subclip(0, d1)
                     clips = [[clip1,clip2]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 elif d2 < d1:
                     loop=d1/d2
                     l=[clip2]
@@ -510,18 +542,18 @@ def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size
                     clip2 =concatenate_videoclips(l).subclip(0, clip1.duration)
                     clips = [[clip1,clip2]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 else:
                     clips = [[clip1,clip2]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
 
             elif o_place=='right' and m_place=='left':
                 if d2 > d1:
                     clip2 = clip2.subclip(0, d1)
                     clips = [[clip2,clip1]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 elif d2 < d1:
                     loop=d1/d2
                     l=[clip2]
@@ -530,11 +562,11 @@ def create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size
                     clip2 =concatenate_videoclips(l).subclip(0, clip1.duration)
                     clips = [[clip2,clip1]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
                 else:
                     clips = [[clip2,clip1]]
                     clips=clips_array(clips)
-                    select_sound(sound,o,m,n,clips,formats,temp_size,resize)
+                    select_sound(sound,o,m,n,clips,formats,resize,temp_size)
             else:
                 return 'The selected merging is not correct, please! select right one'                
 
@@ -554,6 +586,7 @@ def templates(request):
     error = ''
     if request.method == 'POST':
         Output_Video.objects.all().delete()
+
         temp_name1 = request.POST.get('temp1')
         temp_name2 = request.POST.get('temp2')
         temp_name3 = request.POST.get('temp3')
