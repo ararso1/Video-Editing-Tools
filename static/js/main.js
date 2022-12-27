@@ -155,24 +155,23 @@ function select_template(){
     }
   }
   
-  function temp_9_16(){
-    var x = document.getElementById('size-input');
-    var input_w = document.getElementById('width');
-    var input_h = document.getElementById('height');
+ 
+/*     var original = document.getElementById('inputState1');
+    var merged = document.getElementById('inputState2');
+    //var input_w = document.getElementById('width');
+    //var input_h = document.getElementById('height');
     
-    if (x.style.display === 'none') {
-      x.style.display = 'block';
-      input_w.value = "720";
-      input_h.value = '1280';
+    if (original.sele === 'top') {
+      //x.style.display = 'block';
+      //input_w.value = "720";
+      //input_h.value = '1280';
+      document.write('yes')
     }
     else {
       x.style.display = 'none';
     }
-  }
+ */
   
-        $(".progress-bar").animate({
-                    width: "95%",
-            }, 2500);
 
 /*   function set(){
     var x = document.getElementById('setting')

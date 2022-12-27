@@ -44,12 +44,15 @@ def index(request):
 
     context = {}
     return render(request, 'merger_tools/index.html', context)
+
+
 def cropp9_16(clip,n):
     (w, h) = clip.size
     try:
         if w>h:
             clip=clip.fx(vfx.resize,(h,h))
         (w,h)=clip.size
+
         if n=="bottom":
             left = 0
             top = 0
@@ -65,10 +68,108 @@ def cropp9_16(clip,n):
             right = w
             bottom = h
             clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+
+        elif n=='left':
+            (w, h) = clip.size
+            left = w/2
+            top = 0
+            right = w
+            bottom = h
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        elif n=='middle_side':
+            (w, h) = clip.size
+            left = w/4
+            top = 0
+            right = w-w/4
+            bottom = h
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+
+        elif n=='right':
+            (w, h) = clip.size
+            left = 0
+            top = 0
+            right = w/2
+            bottom = h
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+
     except:
         pass
+
     return clip
 
+
+def tobecrop(n,clip):
+    if n=='left':
+        (w, h) = clip.size
+        print(w,h)
+        left = w/2
+        top = 0
+        right = w
+        bottom = h
+        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        print(clip.size)
+        return clip
+    elif n=='middle_side':
+        (w, h) = clip.size
+        print(w,h)
+        left = w/4
+        top = 0
+        right = w-w/4
+        bottom = h
+        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        print(clip.size)
+        return clip
+
+    elif n=='right':
+        (w, h) = clip.size
+        print(w,h)
+        left = 0
+        top = 0
+        right = w/2
+        bottom = h
+        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        print(clip.size)
+        return clip
+    elif n=='left_square':
+        (w, h) = clip.size
+        print(w,h)
+        if w<=h/2:
+            return clip
+        half=h/2
+        left = w-half
+        top = 0
+        right = w
+        bottom = h
+        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        print(clip.size)
+        return clip
+    elif n=='right_square':
+        (w, h) = clip.size
+        print(w,h)
+        if w<=h/2:
+            return clip
+        half=h/2
+        left = 0
+        top = 0
+        right = h/2
+        bottom = h
+        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        print(clip.size)
+        return clip
+    elif n=='middle_square':
+        (w, h) = clip.size
+        print(w,h)
+        if w<=h/2:
+            return clip
+        half=h/2
+        deduct=(w-half)/2
+        left = deduct
+        top = 0
+        right = w-deduct
+        bottom = h
+        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        print(clip.size)
+        return clip
 
 
 def cropp1_1(clip,n):
@@ -76,7 +177,8 @@ def cropp1_1(clip,n):
     try:
         if w>h:
             clip=clip.fx(vfx.resize,(h,h))
-        if n=="top":
+
+        if n=="bottom":
             left = 0
             top = 0
             right = w
@@ -85,13 +187,46 @@ def cropp1_1(clip,n):
 
         elif n=="middle":
             clip = vfx.crop(clip, width=w, height=w/2, x_center=w/2, y_center=h/2)
-            z=0
-        elif n=="bottom":
+        elif n=="top":
             left = 0
             top = h-w/2
             right = w
             bottom = h
             clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+
+        elif n=='left':
+            (w, h) = clip.size
+            if w<=h/2:
+                return clip
+            half=h/2
+            left = w-half
+            top = 0
+            right = w
+            bottom = h
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+
+        elif n=='right':
+            (w, h) = clip.size
+            if w<=h/2:
+                return clip
+            half=h/2
+            left = 0
+            top = 0
+            right = h/2
+            bottom = h
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+        elif n=='middle_square':
+            (w, h) = clip.size
+            if w<=h/2:
+                return clip
+            half=h/2
+            deduct=(w-half)/2
+            left = deduct
+            top = 0
+            right = w-deduct
+            bottom = h
+            clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
+
     except:
         pass
     return clip
