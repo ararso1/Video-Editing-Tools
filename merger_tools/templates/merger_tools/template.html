@@ -44,7 +44,7 @@
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="inputState">Original video placement</label>
-          <select id="inputState1" required name="o_place" class="form-control">
+          <select id="inputState1" required name="o_place" class="form-control" onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
             <option selected>Choose placement...</option>
             <option value="top">Top</option>
             <option value="bottom">Bottom</option>
@@ -54,7 +54,7 @@
         </div>
         <div class="form-group col-md-4">
           <label for="inputState">Merged video placement</label>
-          <select id="inputState2" required name="m_place" class="form-control">
+          <select id="inputState2" required name="m_place" class="form-control"  onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
             <option selected>Choose placement...</option>
             <option value="top">Top</option>
             <option value="bottom">Bottom</option>
@@ -89,17 +89,23 @@
           <option value="MOV">MOV</option>
         </select><br>
         <label>Crop Original:</label>
-        <select required name="crop_original">          
+        <select id="genDropdown" name="crop_original" class="form-select" id="Sub1" required>
+          
+        </select><br>
+        <!-- <select required name="crop_original">          
           <option value="middle">Middle</option>
           <option value="top">Top</option>
           <option value="bottom">Bottom</option>        
-        </select><br>
+        </select><br> -->
         <label>Crop Merged:</label>
-        <select required name="crop_merged">         
+        <select id="genDropdown1" name="crop_merged" class="form-select" id="Sub1" required>
+          
+        </select><br>
+<!--         <select required name="crop_merged">         
           <option value="middle" selected>Middle</option>
           <option value="top">Top</option>
           <option value="bottom">Bottom</option>        
-        </select><br>
+        </select><br> -->
         <label>Output format:</label>
         <select required name="resize">
           
@@ -577,6 +583,38 @@
 </div>
 
 <script>
+
+/* create templates */
+  function doHTML(list){
+      let string ="";
+      let index = 0;
+      let l2 = list
+      list.forEach(element => {
+        string += `<option value="${l2[index]}">${element}</option>`;
+        index+=1;
+      });
+      
+      return string;
+    }
+    function dynamicdropdown(sem){
+      let subjects1 = ["middle", "top", 'bottom'];
+      let subjects2 = ["middle", "left",'right'];
+      
+      let genDropdown = document.getElementById("genDropdown");
+      if(sem =="top" || sem=='bottom'){
+        genDropdown.innerHTML = doHTML(subjects1);
+        genDropdown1.innerHTML = doHTML(subjects1);
+      }
+      if(sem=="left" || sem=='right'){
+        genDropdown.innerHTML = doHTML(subjects2);
+        genDropdown1.innerHTML = doHTML(subjects2);
+      }
+
+    }
+
+
+
+
   function setting1(){
     var x = document.getElementById('setting1')
     if (x.style.display === 'none'){

@@ -98,80 +98,6 @@ def cropp9_16(clip,n):
     return clip
 
 
-def tobecrop(n,clip):
-    if n=='left':
-        (w, h) = clip.size
-        print(w,h)
-        left = w/2
-        top = 0
-        right = w
-        bottom = h
-        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
-        print(clip.size)
-        return clip
-    elif n=='middle_side':
-        (w, h) = clip.size
-        print(w,h)
-        left = w/4
-        top = 0
-        right = w-w/4
-        bottom = h
-        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
-        print(clip.size)
-        return clip
-
-    elif n=='right':
-        (w, h) = clip.size
-        print(w,h)
-        left = 0
-        top = 0
-        right = w/2
-        bottom = h
-        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
-        print(clip.size)
-        return clip
-    elif n=='left_square':
-        (w, h) = clip.size
-        print(w,h)
-        if w<=h/2:
-            return clip
-        half=h/2
-        left = w-half
-        top = 0
-        right = w
-        bottom = h
-        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
-        print(clip.size)
-        return clip
-    elif n=='right_square':
-        (w, h) = clip.size
-        print(w,h)
-        if w<=h/2:
-            return clip
-        half=h/2
-        left = 0
-        top = 0
-        right = h/2
-        bottom = h
-        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
-        print(clip.size)
-        return clip
-    elif n=='middle_square':
-        (w, h) = clip.size
-        print(w,h)
-        if w<=h/2:
-            return clip
-        half=h/2
-        deduct=(w-half)/2
-        left = deduct
-        top = 0
-        right = w-deduct
-        bottom = h
-        clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
-        print(clip.size)
-        return clip
-
-
 def cropp1_1(clip,n):
     (w, h) = clip.size
     try:
@@ -589,10 +515,12 @@ def select_sound(sound,o,m,n,clips,formats,resize,temp_size):
                 final1=final1.fx(vfx.resize,(2160,2160))
             except:
                 pass
-    final1.write_videofile(os.path.abspath("static/assets/output_video/output"+str(n)+"."+formats), fps = 24, codec = 'mpeg4')
+    try:
+        final1.write_videofile(os.path.abspath("static/assets/output_video/output"+str(n)+"."+formats), fps = 30, codec = 'mpeg4')
+    except:
+        pass
     oo=Output_Video.objects.create(output=os.path.abspath("static/assets/output_video/output"+str(n)+".mp4"))
     oo.save()
-
 
 
 def create_template(o_place,m_place,sound,formats,crop_o,crop_m,resize,temp_size):
@@ -610,17 +538,49 @@ def create_template(o_place,m_place,sound,formats,crop_o,crop_m,resize,temp_size
             d1=clip1.duration
             d2=clip2.duration
 
-            w1,h1=clip1.size
-            w2,h2=clip2.size
-            tobecut1 = h1-w1
-            tobecut2 = h2-w2
-
             if temp_size == '9:16':
-                clip1=cropp9_16(clip1,crop_o)
-                clip2=cropp9_16(clip2,crop_m)
+                if o_place=='left' or o_place=='right':
+                    if crop_o=='middle' and crop_m=='middle':
+                        crop_o='middle_square'
+                        crop_m='middle_square'
+                        clip1=cropp9_16(clip1,crop_o)
+                        clip2=cropp9_16(clip2,crop_m)
+                    elif crop_m=='middle':
+                        crop_m='middle_square'
+                        clip1=cropp9_16(clip1,crop_o)
+                        clip2=cropp9_16(clip2,crop_m)
+                    elif crop_o=='middle':
+                        crop_o='middle_square'
+                        clip1=cropp9_16(clip1,crop_o)
+                        clip2=cropp9_16(clip2,crop_m)
+                    else:
+                        clip1=cropp9_16(clip1,crop_o)
+                        clip2=cropp9_16(clip2,crop_m)
+                else:
+                    clip1=cropp9_16(clip1,crop_o)
+                    clip2=cropp9_16(clip2,crop_m)
+       
             elif temp_size == '1:1':
-                clip1=cropp1_1(clip1,crop_o)
-                clip2=cropp1_1(clip2,crop_m)
+                if o_place=='left' or o_place=='right':
+                    if crop_o=='middle' and crop_m=='middle':
+                        crop_o='middle_square'
+                        crop_m='middle_square'
+                        clip1=cropp1_1(clip1,crop_o)
+                        clip2=cropp1_1(clip2,crop_m)
+                    elif crop_m=='middle':
+                        crop_m='middle_square'
+                        clip1=cropp1_1(clip1,crop_o)
+                        clip2=cropp1_1(clip2,crop_m)
+                    elif crop_o=='middle':
+                        crop_o='middle_square'
+                        clip1=cropp1_1(clip1,crop_o)
+                        clip2=cropp1_1(clip2,crop_m)
+                    else:
+                        clip1=cropp1_1(clip1,crop_o)
+                        clip2=cropp1_1(clip2,crop_m)
+                else:
+                    clip1=cropp1_1(clip1,crop_o)
+                    clip2=cropp1_1(clip2,crop_m)
 
 
             if o_place=='top' and m_place=='bottom':
@@ -703,7 +663,7 @@ def create_template(o_place,m_place,sound,formats,crop_o,crop_m,resize,temp_size
                     clips=clips_array(clips)
                     select_sound(sound,o,m,n,clips,formats,resize,temp_size)
             else:
-                return 'The selected merging is not correct, please! select right one'                
+                return 'The selected merging is not correct, please! select the right one'                
 
             n+=1
 
@@ -743,7 +703,8 @@ def templates(request):
         sound = request.POST.get('sound')
         
         if o_place!=None and m_place!=None and temp_size!=None:
-            create_template(o_place,m_place,sound,formats,resize,crop_m,crop_o,temp_size)
+            print(o_place,m_place,sound,formats,crop_o,crop_m,resize,temp_size)
+            create_template(o_place,m_place,sound,formats,crop_o,crop_m,resize,temp_size)
         elif temp_name1:
             temp_size = '9:16'
             temp1(sound,formats,crop_o,crop_m,resize,temp_size)
@@ -777,6 +738,7 @@ def templates(request):
 
 def output(request):
     outputs = Output_Video.objects.all()
+    c=outputs.count()
     Zip_file.objects.all().delete()
     zip_name = 'allvideo.zip'
     with ZipFile(os.path.abspath('static/assets/download_zip/'+zip_name), 'w') as zipObj:
@@ -789,5 +751,5 @@ def output(request):
     if zip_name in os.path.abspath('static/assets/download_zip/'+zip_name):
         Zip_file.objects.create(file=zipObj.filename)
     zipf = Zip_file.objects.get()
-    context = {'outputs':outputs,'zipf':zipf}
+    context = {'outputs':outputs,'zipf':zipf,'c':c}
     return render(request, 'merger_tools/output.html', context)
