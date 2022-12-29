@@ -53,7 +53,7 @@ def cropp9_16(clip,n):
             clip=clip.fx(vfx.resize,(h,h))
         (w,h)=clip.size
 
-        if n=="bottom":
+        if n=="top":
             left = 0
             top = 0
             right = w
@@ -62,14 +62,14 @@ def cropp9_16(clip,n):
 
         elif n=="middle":
             clip = vfx.crop(clip, width=w, height=w, x_center=w/2, y_center=h/2)
-        elif n=="top":
+        elif n=="bottom":
             left = 0
             top = h-w
             right = w
             bottom = h
             clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
 
-        elif n=='left':
+        elif n=='right':
             (w, h) = clip.size
             left = w/2
             top = 0
@@ -84,7 +84,7 @@ def cropp9_16(clip,n):
             bottom = h
             clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
 
-        elif n=='right':
+        elif n=='left':
             (w, h) = clip.size
             left = 0
             top = 0
@@ -104,7 +104,7 @@ def cropp1_1(clip,n):
         if w>h:
             clip=clip.fx(vfx.resize,(h,h))
 
-        if n=="bottom":
+        if n=="top":
             left = 0
             top = 0
             right = w
@@ -113,14 +113,14 @@ def cropp1_1(clip,n):
 
         elif n=="middle":
             clip = vfx.crop(clip, width=w, height=w/2, x_center=w/2, y_center=h/2)
-        elif n=="top":
+        elif n=="bottom":
             left = 0
             top = h-w/2
             right = w
             bottom = h
             clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
 
-        elif n=='left':
+        elif n=='right':
             (w, h) = clip.size
             if w<=h/2:
                 return clip
@@ -131,7 +131,7 @@ def cropp1_1(clip,n):
             bottom = h
             clip = vfx.crop(clip,x1=left, y1=top, x2=right, y2=bottom)
 
-        elif n=='right':
+        elif n=='left':
             (w, h) = clip.size
             if w<=h/2:
                 return clip
